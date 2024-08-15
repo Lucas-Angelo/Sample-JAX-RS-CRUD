@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cache Request Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+        #response {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #buttons {
+            margin-top: 20px;
+        }
+        button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Cache-Control Request Example</h1>
+
+<div id="buttons">
+    <button id="fetchData">Fetch Data</button>
+    <button id="resetCache">Reset Cache</button>
+</div>
+
+<div id="status"></div>
+<div id="response"></div>
+
+<script>
+    const cacheKey = 'helloWorldData';
+    const cacheTimeKey = 'helloWorldCacheTime';
+    const maxCacheAge = 3600; // Max-age em segundos (1 hora)
+
+    document.getElementById('fetchData').addEventListener('click', function() {
+        // Verifica se os dados estão no localStorage e o tempo de cache
+        const cachedData = localStorage.getItem(cacheKey);
+        const cacheTimestamp = localStorage.getItem(cacheTimeKey);
+
+        if (cachedData && cacheTimestamp) {
+            const currentTime = Math.floor(Date.now() / 1000);
+            const cacheTime = parseInt(cacheTimestamp);
+
+            // Verifica se o cache ainda é válido
+            if ((currentTime - cacheTime) < maxCacheAge) {
+                document.getElementById('status').innerText = 'Data retrieved from localStorage.';
+                document.getElementById('response').innerHTML = `<pre>${JSON.stringify(JSON.parse(cachedData), null, 2)}</pre>`;
+                return;
+            } else {
+                // Cache expirado, removendo os dados armazenados
+                localStorage.removeItem(cacheKey);
+                localStorage.removeItem(cacheTimeKey);
+            }
+        }
+
+        // Se não há cache válido, faz a requisição
+        fetch('http://localhost:8080/samplejaxrsget/hello-world', {
+            method: 'GET',
+            headers: {
+                'Cache-Control': 'max-age=3600'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('status').innerText = 'New request made to the server.';
+                return response.json();
+            } else {
+                throw new Error('Network response was not ok');
+            }
+        })
+        .then(data => {
+            // Salva os dados e o timestamp atual no localStorage
+            localStorage.setItem(cacheKey, JSON.stringify(data));
+            localStorage.setItem(cacheTimeKey, Math.floor(Date.now() / 1000)); // Timestamp em segundos
+            document.getElementById('response').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            document.getElementById('status').innerText = 'Failed to fetch data.';
+        });
+    });
+
+    // Manipulador para o botão de resetar o cache
+    document.getElementById('resetCache').addEventListener('click', function() {
+        localStorage.removeItem(cacheKey);
+        localStorage.removeItem(cacheTimeKey);
+        document.getElementById('status').innerText = 'Cache has been reset.';
+        document.getElementById('response').innerHTML = '';
+    });
+</script>
+
+</body>
+</html>

@@ -18,6 +18,9 @@ public class MessageControllerTest {
 
     private static final String EXPECTED_MESSAGE = "Hello, World!";
 
+    private static final String EXPECTED_CACHE_CONTROL_HEADER = "Cache-Control";
+    private static final String EXPECTED_CACHE_CONTROL_VALUE = "private, no-transform, max-age=3600";
+
     @Mock
     private MessageService messageService;
 
@@ -38,9 +41,13 @@ public class MessageControllerTest {
         when(messageService.getMessage()).thenReturn(expectedMessage);
 
         // when
-        Message actualMessage = messageController.getMessage();
+        Response response = messageController.getMessage();
+        Message actualMessage = (Message) response.getEntity();
 
         // then
         assertEquals(EXPECTED_MESSAGE, actualMessage.getText());
+
+        String cacheControlHeader = response.getHeaderString(EXPECTED_CACHE_CONTROL_HEADER);
+        assertEquals(EXPECTED_CACHE_CONTROL_VALUE, cacheControlHeader);
     }
 }
