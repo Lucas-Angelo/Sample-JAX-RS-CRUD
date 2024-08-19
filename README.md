@@ -13,7 +13,7 @@ Este é um projeto simples que demonstra o uso do JAX-RS (Java API for RESTful W
 
 ### Pacotes:
 
-- `controller`: Este é geralmente o ponto de entrada para as solicitações HTTP. O controlador manipula a solicitação do usuário e retorna uma resposta. Em um projeto JAX-RS, você pode ter um arquivo como `MessageController.java` no pacote `com.lucasangelo.controller`. Este arquivo pode conter métodos anotados com `@GET`, `@POST`, etc., para lidar com diferentes tipos de solicitações HTTP.  
+- `controller`: Este é geralmente o ponto de entrada para as solicitações HTTP. O controlador manipula a solicitação do usuário e retorna uma resposta. Em um projeto JAX-RS, você pode ter um arquivo como `MessageController.java` no pacote `com.lucasangelo.controller`. Este arquivo pode conter métodos anotados com `@GET`, `@POST`, etc., para lidar com diferentes tipos de solicitações HTTP.
 - `service`: Este é o local onde a lógica de negócios é geralmente implementada. Em um projeto JAX-RS, você pode ter um arquivo como `MessageService.java` no `pacote com.lucasangelo.service`. Este arquivo pode conter métodos para lidar com operações de negócios, como buscar, criar, atualizar e excluir mensagens.
 - `model` (fake neste projeto): Este é geralmente um objeto de dados que representa a estrutura dos dados que seu aplicativo está manipulando. Em um projeto JAX-RS, você pode ter um arquivo como `Message.java` no `pacote com.lucasangelo.model`. Este arquivo pode conter campos para representar diferentes propriedades de uma mensagem, como id, content, etc., junto com os métodos getter e setter correspondentes.
 
@@ -59,11 +59,16 @@ Este é um projeto simples que demonstra o uso do JAX-RS (Java API for RESTful W
 Você pode testar a API usando o Postman ou qualquer outra ferramenta de teste de API. Aqui está um exemplo de um comando cURL que você pode usar:
 
 #### cURL:
+
 ```
 curl --location --request GET 'http://localhost:8080/samplejaxrsget/hello-world'
 ```
 
 #### Postman:
+
+O arquivo SAMPLE-JAC-RS-GET.postman_collection.json é uma coleção do postman com todos os verbos do endpoint disponiveis (GET, POST, PUT, DELETE).
+Importe esse arquivo no Postman e execute as requisições.
+
 ![postman_request.png.jpg](postman_request.png.jpg)
 
 ---
@@ -71,7 +76,3 @@ curl --location --request GET 'http://localhost:8080/samplejaxrsget/hello-world'
 ## Licença
 
 Este projeto está licenciado sob a licença MIT.
-
-
-
-
