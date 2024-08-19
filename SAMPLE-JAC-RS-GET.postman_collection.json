@@ -71,18 +71,6 @@
 					"path": [
 						"samplejaxrsget",
 						"hello-world"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "3",
-							"disabled": true
-						},
-						{
-							"key": "text",
-							"value": "alou",
-							"disabled": true
-						}
 					]
 				}
 			},
