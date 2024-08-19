@@ -2,7 +2,9 @@ package com.lucasangelo.controller;
 
 import com.lucasangelo.model.Message;
 import com.lucasangelo.service.MessageService;
-import java.util.*;
+
+import java.net.URI;
+import java.util.List;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.DELETE;
@@ -50,7 +52,8 @@ public class MessageController {
     public Response addMessage(Message message) {
         messageService.addMessage(message);
 
-        return Response.ok(message)
+        return Response.created(URI.create("/hello-world/"+ message.getId().toString()))
+                .entity(message)
                 .build();
     }
 
@@ -61,7 +64,7 @@ public class MessageController {
         Message message = messageService.getMessage(id);
         messageService.removeMessage(message);
 
-        return Response.ok(message)
+        return Response.noContent()
                 .build();
     }
 

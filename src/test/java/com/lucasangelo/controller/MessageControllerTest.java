@@ -19,8 +19,8 @@ public class MessageControllerTest {
     private static final String EXPECTED_MESSAGE = "Hello, World!";
     private static final long EXPECTED_ID = 1L;
 
-    // private static final String EXPECTED_CACHE_CONTROL_HEADER = "Cache-Control";
-    // private static final String EXPECTED_CACHE_CONTROL_VALUE = "private, no-transform, max-age=3600";
+    private static final String EXPECTED_CACHE_CONTROL_HEADER = "Cache-Control";
+    private static final String EXPECTED_CACHE_CONTROL_VALUE = "private, no-transform, max-age=3600";
 
     @Mock
     private MessageService messageService;
@@ -48,9 +48,6 @@ public class MessageControllerTest {
 
         // then
         assertEquals(EXPECTED_MESSAGE, actualMessage.getText());
-
-        // String cacheControlHeader = response.getHeaderString(EXPECTED_CACHE_CONTROL_HEADER);
-        // assertEquals(EXPECTED_CACHE_CONTROL_VALUE, cacheControlHeader);
     }
 
     @Test
@@ -79,7 +76,7 @@ public class MessageControllerTest {
         Response response = messageController.addMessage(newMessage);
 
         // then
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
 
     @Test
@@ -107,7 +104,7 @@ public class MessageControllerTest {
         Response response = messageController.removeMessage(messageToRemove.getId());
 
         // then
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
     }
 
     @Test
@@ -117,5 +114,8 @@ public class MessageControllerTest {
 
         // then
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        
+        String cacheControlHeader = response.getHeaderString(EXPECTED_CACHE_CONTROL_HEADER);
+        assertEquals(EXPECTED_CACHE_CONTROL_VALUE, cacheControlHeader);
     }
 }

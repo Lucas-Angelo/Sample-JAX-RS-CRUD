@@ -1,7 +1,8 @@
 package com.lucasangelo.service;
 
 import com.lucasangelo.model.Message;
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
 import jakarta.ejb.Stateless;
 
 @Stateless
