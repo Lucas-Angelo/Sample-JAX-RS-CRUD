@@ -1,4 +1,4 @@
-# Sample JAX-RS GET
+# Sample JAX-RS CRUD
 
 Este é um projeto simples que demonstra o uso do JAX-RS (Java API for RESTful Web Services) para criar um serviço web RESTful em Java. O projeto foi criado usando Maven e é executado no Apache TomEE.
 
@@ -42,31 +42,25 @@ Este é um projeto simples que demonstra o uso do JAX-RS (Java API for RESTful W
 
 ### Rodar com Docker:
 
-- Construir imagem: `docker build -t sample-jaxrs-get .`
-- Rodar container: `docker run -p 8080:8080 sample-jaxrs-get`
+- Construir imagem: `docker build -t sample-jaxrs-crud .`
+- Rodar container: `docker run -p 8080:8080 sample-jaxrs-crud`
 
 ### Rodar com Docker-compose:
 
 - Rodar container: `docker-compose up`
 - Parar container: `docker-compose down`
-- Accessar a API: `http://localhost:8080/samplejaxrsget/hello-world`
+- Accessar a API: `http://localhost:8080/samplejaxrscrud/hello-world`
 - Accessar o webapp: `http://localhost:80`
 
 ---
 
 ## Testando a API
 
-Você pode testar a API usando o Postman ou qualquer outra ferramenta de teste de API. Aqui está um exemplo de um comando cURL que você pode usar:
-
-#### cURL:
-
-```
-curl --location --request GET 'http://localhost:8080/samplejaxrsget/hello-world'
-```
+Você pode testar a API usando o Postman ou qualquer outra ferramenta de teste de API.
 
 #### Postman:
 
-O arquivo SAMPLE-JAC-RS-GET.postman_collection.json é uma coleção do postman com todos os verbos do endpoint disponiveis (GET, POST, PUT, DELETE).
+O arquivo SAMPLE-JAX-RS-CRUD.postman_collection.json é uma coleção do postman com todos os verbos do endpoint disponiveis (GET, POST, PUT, DELETE).
 Importe esse arquivo no Postman e execute as requisições.
 
 ![postman_request.png.jpg](postman_request.png.jpg)

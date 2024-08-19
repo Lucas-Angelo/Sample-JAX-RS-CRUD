@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.lucasangelo</groupId>
-  <artifactId>samplejaxrsget</artifactId>
+  <artifactId>samplejaxrscrud</artifactId>
   <packaging>war</packaging>
   <version>9.0.0-M9-SNAPSHOT</version>
-  <name>Sample JAX-RS GET</name>
+  <name>Sample JAX-RS CRUD</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tomee.version>9.0.0-M9-SNAPSHOT</tomee.version>
@@ -26,7 +26,7 @@
     </pluginRepository>
   </pluginRepositories>
   <build>
-    <finalName>samplejaxrsget</finalName>
+    <finalName>samplejaxrscrud</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.tomee.maven</groupId>

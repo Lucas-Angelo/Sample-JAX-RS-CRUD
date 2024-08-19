@@ -29,6 +29,38 @@
             padding: 10px 20px;
             font-size: 16px;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -37,19 +69,57 @@
 
 <div id="buttons">
     <button id="fetchData">Fetch Data</button>
+    <button id="createDataBtn">Create Data</button>
+    <button id="updateDataBtn">Update Data</button>
+    <button id="deleteDataBtn">Delete Data</button>
     <button id="resetCache">Reset Cache</button>
 </div>
 
 <div id="status"></div>
 <div id="response"></div>
 
+<!-- Modals -->
+<div id="createModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeCreate">&times;</span>
+        <h2>Create Data</h2>
+        <label for="createId">ID:</label>
+        <input type="number" id="createId" required><br><br>
+        <label for="createText">Text:</label>
+        <input type="text" id="createText" required><br><br>
+        <button id="submitCreate">Submit</button>
+    </div>
+</div>
+
+<div id="updateModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeUpdate">&times;</span>
+        <h2>Update Data</h2>
+        <label for="updateId">ID:</label>
+        <input type="number" id="updateId" required><br><br>
+        <label for="updateText">Text:</label>
+        <input type="text" id="updateText" required><br><br>
+        <button id="submitUpdate">Submit</button>
+    </div>
+</div>
+
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeDelete">&times;</span>
+        <h2>Delete Data</h2>
+        <label for="deleteId">ID:</label>
+        <input type="number" id="deleteId" required><br><br>
+        <button id="submitDelete">Submit</button>
+    </div>
+</div>
+
 <script>
     const cacheKey = 'helloWorldData';
     const cacheTimeKey = 'helloWorldCacheTime';
     const maxCacheAge = 3600; // Max-age em segundos (1 hora)
 
+    // Fetch Data
     document.getElementById('fetchData').addEventListener('click', function() {
-        // Verifica se os dados estão no localStorage e o tempo de cache
         const cachedData = localStorage.getItem(cacheKey);
         const cacheTimestamp = localStorage.getItem(cacheTimeKey);
 
@@ -57,20 +127,17 @@
             const currentTime = Math.floor(Date.now() / 1000);
             const cacheTime = parseInt(cacheTimestamp);
 
-            // Verifica se o cache ainda é válido
             if ((currentTime - cacheTime) < maxCacheAge) {
                 document.getElementById('status').innerText = 'Data retrieved from localStorage.';
                 document.getElementById('response').innerHTML = `<pre>${JSON.stringify(JSON.parse(cachedData), null, 2)}</pre>`;
                 return;
             } else {
-                // Cache expirado, removendo os dados armazenados
                 localStorage.removeItem(cacheKey);
                 localStorage.removeItem(cacheTimeKey);
             }
         }
 
-        // Se não há cache válido, faz a requisição
-        fetch('http://localhost:8080/samplejaxrsget/hello-world', {
+        fetch('http://localhost:8080/samplejaxrscrud/hello-world', {
             method: 'GET',
             headers: {
                 'Cache-Control': 'max-age=3600'
@@ -85,7 +152,6 @@
             }
         })
         .then(data => {
-            // Salva os dados e o timestamp atual no localStorage
             localStorage.setItem(cacheKey, JSON.stringify(data));
             localStorage.setItem(cacheTimeKey, Math.floor(Date.now() / 1000)); // Timestamp em segundos
             document.getElementById('response').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
@@ -96,13 +162,114 @@
         });
     });
 
-    // Manipulador para o botão de resetar o cache
-    document.getElementById('resetCache').addEventListener('click', function() {
+    // Create Data
+    document.getElementById('createDataBtn').addEventListener('click', function() {
+        document.getElementById('createModal').style.display = 'block';
+    });
+
+    document.getElementById('submitCreate').addEventListener('click', function() {
+        const id = document.getElementById('createId').value;
+        const text = document.getElementById('createText').value;
+
+        fetch('http://localhost:8080/samplejaxrscrud/hello-world', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: parseInt(id), text: text })
+        })
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('status').innerText = 'Data created successfully.';
+                resetCache();
+                document.getElementById('createModal').style.display = 'none';
+            } else {
+                throw new Error('Failed to create data');
+            }
+        })
+        .catch(error => {
+            console.error('Error creating data:', error);
+            document.getElementById('status').innerText = 'Failed to create data.';
+        });
+    });
+
+    // Update Data
+    document.getElementById('updateDataBtn').addEventListener('click', function() {
+        document.getElementById('updateModal').style.display = 'block';
+    });
+
+    document.getElementById('submitUpdate').addEventListener('click', function() {
+        const id = document.getElementById('updateId').value;
+        const text = document.getElementById('updateText').value;
+
+        fetch('http://localhost:8080/samplejaxrscrud/hello-world', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: parseInt(id), text: text })
+        })
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('status').innerText = 'Data updated successfully.';
+                resetCache();
+                document.getElementById('updateModal').style.display = 'none';
+            } else {
+                throw new Error('Failed to update data');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating data:', error);
+            document.getElementById('status').innerText = 'Failed to update data.';
+        });
+    });
+
+    // Delete Data
+    document.getElementById('deleteDataBtn').addEventListener('click', function() {
+        document.getElementById('deleteModal').style.display = 'block';
+    });
+
+    document.getElementById('submitDelete').addEventListener('click', function() {
+        const id = document.getElementById('deleteId').value;
+
+        fetch(`http://localhost:8080/samplejaxrscrud/hello-world/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('status').innerText = 'Data deleted successfully.';
+                resetCache();
+                document.getElementById('deleteModal').style.display = 'none';
+            } else {
+                throw new Error('Failed to delete data');
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting data:', error);
+            document.getElementById('status').innerText = 'Failed to delete data.';
+        });
+    });
+
+    // Close modals
+    document.getElementById('closeCreate').addEventListener('click', function() {
+        document.getElementById('createModal').style.display = 'none';
+    });
+    document.getElementById('closeUpdate').addEventListener('click', function() {
+        document.getElementById('updateModal').style.display = 'none';
+    });
+    document.getElementById('closeDelete').addEventListener('click', function() {
+        document.getElementById('deleteModal').style.display = 'none';
+    });
+
+    // Reset Cache
+    document.getElementById('resetCache').addEventListener('click', resetCache);
+
+    function resetCache() {
         localStorage.removeItem(cacheKey);
         localStorage.removeItem(cacheTimeKey);
         document.getElementById('status').innerText = 'Cache has been reset.';
         document.getElementById('response').innerHTML = '';
-    });
+    }
 </script>
 
 </body>

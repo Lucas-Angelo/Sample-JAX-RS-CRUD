@@ -8,7 +8,7 @@ import jakarta.ejb.Stateless;
 @Stateless
 public class MessageService {
 
-    private List<Message> messages = new ArrayList<>();
+    private final List<Message> messages = new ArrayList<>();
 
     public MessageService() {
         messages.add(new Message("Hello, World!", 1L));
@@ -37,10 +37,11 @@ public class MessageService {
     }
 
     public void updateMessage(Message message) {
-        for (Message m : messages) {
-            if (m.getId().equals(message.getId())) {
-                m.setText(message.getText());
-            }
+        if (message != null && message.getId() != null) {
+            messages.stream()
+                    .filter(m -> m.getId().equals(message.getId()))
+                    .findFirst()
+                    .ifPresent(m -> m.setText(message.getText()));
         }
     }
 }

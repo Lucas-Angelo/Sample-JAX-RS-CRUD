@@ -32,6 +32,8 @@ public class MessageController {
         cacheControl.setMaxAge(3600);
         cacheControl.setPrivate(true);
 
+        System.out.println("Returning all messages");
+
         return Response.ok(messages)
                 .cacheControl(cacheControl)
                 .build();

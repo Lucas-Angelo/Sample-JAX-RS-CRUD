@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Nome do projeto
-PROJECT_NAME="Sample JAX-RS GET"
+PROJECT_NAME="Sample JAX-RS CRUD"
 
 # Verifica se o Maven está instalado
 if ! command -v mvn &> /dev/null
