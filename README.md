@@ -45,6 +45,13 @@ Este é um projeto simples que demonstra o uso do JAX-RS (Java API for RESTful W
 - Construir imagem: `docker build -t sample-jaxrs-get .`
 - Rodar container: `docker run -p 8080:8080 sample-jaxrs-get`
 
+### Rodar com Docker-compose:
+
+- Rodar container: `docker-compose up`
+- Parar container: `docker-compose down`
+- Accessar a API: `http://localhost:8080/samplejaxrsget/hello-world`
+- Accessar o webapp: `http://localhost:80`
+
 ---
 
 ## Testando a API
