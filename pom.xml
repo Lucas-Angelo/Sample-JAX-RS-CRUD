@@ -36,15 +36,6 @@
           <tomeeClassifier>plus</tomeeClassifier> <!-- ou 'webprofile' conforme a necessidade -->
           <tomeeVersion>${tomee.version}</tomeeVersion>
         </configuration>
-        <executions>
-          <execution>
-            <id>tomee-run</id>
-            <phase>package</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

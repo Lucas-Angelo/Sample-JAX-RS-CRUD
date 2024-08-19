@@ -40,6 +40,11 @@ Este é um projeto simples que demonstra o uso do JAX-RS (Java API for RESTful W
 - Iniciar aplicação: `bash run_project.bash`
 - Executar testes da aplicação: `bash test_project.bash`
 
+### Rodar com Docker:
+
+- Construir imagem: `docker build -t sample-jaxrs-get .`
+- Rodar container: `docker run -p 8080:8080 sample-jaxrs-get`
+
 ---
 
 ## Testando a API
