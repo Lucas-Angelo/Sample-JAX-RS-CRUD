@@ -52,4 +52,70 @@ public class MessageControllerTest {
         // String cacheControlHeader = response.getHeaderString(EXPECTED_CACHE_CONTROL_HEADER);
         // assertEquals(EXPECTED_CACHE_CONTROL_VALUE, cacheControlHeader);
     }
+
+    @Test
+    public void testGetMessageWithInvalidId() {
+        // given
+        Message errorMessage = new Message();
+        errorMessage.setText("Message not found");
+        errorMessage.setId(0L);
+        when(messageService.getMessage(5L)).thenReturn(errorMessage);
+
+        // when
+        Response response = messageController.getMessageById(5L);
+
+        // then
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testAddMessage() {
+        // given
+        Message newMessage = new Message();
+        newMessage.setText("New message");
+        newMessage.setId(3L);
+
+        // when
+        Response response = messageController.addMessage(newMessage);
+
+        // then
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testUpdateMessage() {
+        // given
+        Message updatedMessage = new Message();
+        updatedMessage.setText("Updated message");
+        updatedMessage.setId(3L);
+
+        // when
+        Response response = messageController.updateMessage(updatedMessage);
+
+        // then
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testRemoveMessage() {
+        // given
+        Message messageToRemove = new Message();
+        messageToRemove.setText("Updated message");
+        messageToRemove.setId(3L);
+
+        // when
+        Response response = messageController.removeMessage(messageToRemove.getId());
+
+        // then
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testGetAllMessages() {
+        // when
+        Response response = messageController.getAllMessages();
+
+        // then
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
 }
