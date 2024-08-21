@@ -2,6 +2,15 @@
 
 Este é um projeto simples que demonstra o uso do JAX-RS (Java API for RESTful Web Services) para criar um serviço web RESTful em Java. O projeto foi criado usando Maven e é executado no Apache TomEE.
 
+# Alunos
+
+- 206877 - Atílio Silva Ferreira
+- 206433 - João Américo Martins Caiafa de Andrade
+- 208008 - Lucas Ângelo O. M. Rocha
+- 211362 - Marcelo Aguilar Rocha Junior
+- 208691 - Rodrigo Gama de Oliveira
+- 207977 - Victor Boaventura Goes Campos
+
 ## Arquivos e Pacotes
 
 ### Arquivos:
